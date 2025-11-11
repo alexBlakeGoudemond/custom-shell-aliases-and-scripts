@@ -1,5 +1,6 @@
 # collaboration_custom_git_aliases
 A shared repository containing Git Alias' that can be used to improve workflows
+Example Usage: <img width="1432" height="246" alt="image" src="https://github.com/user-attachments/assets/235ec0f8-5d1b-4dd1-b967-547daa41d196" />
 
 # Using .dotfiles scripts:
 1. Clone this repo
