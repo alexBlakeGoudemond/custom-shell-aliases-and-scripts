@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 
-# -------------------------------------------------------
-# git-new: create and push a new branch with conventions
-# -------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------
+# git-new: create and push a new branch with some naming conventions
+# For fun, we named this little tool as `TaskSmith
+# Bash insights: '$1' is argument 1, 'shift' moves the cursor right, 'remaining' retrieves the parameters
+# --------------------------------------------------------------------------------------------------------
 
 set -e  # exit if anything fails
 
-# Try to read Tasksmith version from Git tags in the dotfiles repo
-TASKSMITH_VERSION=$(git -C "$(dirname "$0")/.." describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
+# Try to read TaskSmith version from Git tags in the dotfiles repo
+TASK_SMITH_VERSION=$(git -C "$(dirname "$0")/.." describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
 
 echo ""
-echo "🛠️  Tasksmith $TASKSMITH_VERSION — Git Branch Crafter"
+echo "🛠️  TaskSmith $TASK_SMITH_VERSION — Git Branch Crafter"
 echo "───────────────────────────────────────────────────────"
 
 # Show usage if no args given
@@ -68,7 +70,20 @@ if [ -z "$branch" ]; then
   exit 1
 fi
 
-echo "➡️  Creating and pushing branch: $branch"
+echo "➡️  Preparing branch: $branch"
 
-git switch -c "$branch"
-git push -u origin "$branch"
+# Check if branch exists locally
+if git show-ref --verify --quiet "refs/heads/$branch"; then
+    echo "⚠️  Branch '$branch' already exists locally."
+    echo "   → Switching to it..."
+    git switch "$branch"
+# Check if branch exists on remote
+elif git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+    echo "⚠️  Branch '$branch' exists on remote."
+    echo "   → Fetching and switching to it..."
+    git fetch origin "$branch" && git switch "$branch"
+# Branch does not exist locally or remotely
+else
+    echo "✅  Creating and pushing new branch: $branch"
+    git switch -c "$branch" && git push -u origin "$branch"
+fi
