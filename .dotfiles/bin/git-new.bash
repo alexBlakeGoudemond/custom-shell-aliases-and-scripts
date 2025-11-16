@@ -19,7 +19,7 @@ TASK_SMITH_VERSION=$(git -C "$(dirname "$0")/.." describe --tags --abbrev=0 2>/d
 
 echo ""
 echo "🛠️  TaskSmith $TASK_SMITH_VERSION — Git Branch Crafter"
-echo "───────────────────────────────────────────────────────"
+echo "───────────────────────────────────────────────────────────────"
 
 # Show usage if no args given
 if [ -z "$1" ]; then 
@@ -94,3 +94,7 @@ else
     echo "✔️  Creating and pushing new branch: $branch"
     git switch -c "$branch" && git push -u origin "$branch"
 fi
+
+echo ""
+echo "🛠️  TaskSmith finished"
+echo "───────────────────────────────────────────────────────────────"
