@@ -25,7 +25,8 @@ if [ -z "$1" ]; then
       echo "  git new-worktree task add login endpoint"
       echo "  git new-worktree feature dark mode toggle"
       echo "  git new-worktree fix broken tests"
-      echo "  git new-worktree my-branch        # defaults to task/my-branch in that worktree"
+      echo "  git new-worktree my-branch                               # defaults to task/my-branch in that worktree"
+      echo "  git new-worktree refactor customer service abc-123       # abc-123 would be the JIRA ticket number"
     exit 1
 fi
 

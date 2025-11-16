@@ -28,7 +28,8 @@ if [ -z "$1" ]; then
   echo "  git new task add login endpoint"
   echo "  git new feature dark mode toggle"
   echo "  git new fix broken tests"
-  echo "  git new my-branch        # defaults to task/my-branch"
+  echo "  git new my-branch                               # defaults to task/my-branch"
+  echo "  git new refactor customer service abc-123       # abc-123 would be the JIRA ticket number"
   exit 1
 fi
 
