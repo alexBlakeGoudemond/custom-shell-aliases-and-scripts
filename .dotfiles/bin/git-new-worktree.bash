@@ -16,8 +16,8 @@ set -e  # exit if anything fails
 TREE_FORGE_VERSION=$(git -C "$(dirname "$0")/.." describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
 
 echo ""
-echo "🌳   $TREE_FORGE_VERSION — Git Worktree Crafter"
-echo "───────────────────────────────────────────────────────"
+echo "🌳  TreeForge $TREE_FORGE_VERSION — Git Worktree Crafter"
+echo "───────────────────────────────────────────────────────────────"
 
 if [ -z "$1" ]; then
     echo "Usage: git new-worktree [type] <branch-name>"
@@ -57,3 +57,7 @@ cd "$worktree_dir"
 git new "${allArguments[@]}"
 
 echo "✔️  Worktree created at $worktree_dir"
+
+echo ""
+echo "🌳  TreeForge finished"
+echo "───────────────────────────────────────────────────────────────"
