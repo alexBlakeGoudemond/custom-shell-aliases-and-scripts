@@ -2,8 +2,14 @@
 
 # --------------------------------------------------------------------------------------------------------
 # git-new: create and push a new branch with some naming conventions
-# For fun, we named this little tool as `TaskSmith
-# Bash insights: '$1' is argument 1, 'shift' moves the cursor right, 'remaining' retrieves the parameters
+# Usage: git new feature my cool thing
+# For fun, we named this little tool as `TaskSmith`
+#
+# Bash insights:
+# - '$1' is argument 1
+# - 'shift' moves the cursor right
+# - 'remaining' retrieves the parameters
+# - '$@' represents all arguments
 # --------------------------------------------------------------------------------------------------------
 
 set -e  # exit if anything fails
@@ -19,9 +25,9 @@ echo "────────────────────────�
 if [ -z "$1" ]; then 
   echo "Usage: git new [type] <branch-name>"
   echo "Examples:"
-  echo "  git new task add-login-endpoint"
-  echo "  git new feature dark-mode-toggle"
-  echo "  git new fix broken-tests"
+  echo "  git new task add login endpoint"
+  echo "  git new feature dark mode toggle"
+  echo "  git new fix broken tests"
   echo "  git new my-branch        # defaults to task/my-branch"
   exit 1
 fi
@@ -84,6 +90,6 @@ elif git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
     git fetch origin "$branch" && git switch "$branch"
 # Branch does not exist locally or remotely
 else
-    echo "✅  Creating and pushing new branch: $branch"
+    echo "✔️  Creating and pushing new branch: $branch"
     git switch -c "$branch" && git push -u origin "$branch"
 fi
