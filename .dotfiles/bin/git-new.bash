@@ -6,6 +6,7 @@
 # For fun, we named this little tool as `TaskSmith`
 #
 # Bash insights:
+# - 'git tag --sort=v:refname' lists all tags in semantic version order (v1.0.1 > v1.0.0)
 # - '$1' is argument 1
 # - 'shift' moves the cursor right
 # - 'remaining' retrieves the parameters
@@ -14,11 +15,11 @@
 
 set -e  # exit if anything fails
 
-# Try to read TaskSmith version from Git tags in the dotfiles repo
-TASK_SMITH_VERSION=$(git -C "$(dirname "$0")/.." describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
+# Read the Most Recent Tag version from Git
+NEWEST_TAG_VERSION=$(git tag --sort=v:refname | tail -n 1 2>/dev/null || echo "1.0.0")
 
 echo ""
-echo "🛠️  TaskSmith $TASK_SMITH_VERSION — Git Branch Crafter"
+echo "🛠️  TaskSmith $NEWEST_TAG_VERSION — Git Branch Crafter"
 echo "───────────────────────────────────────────────────────────────"
 
 # Show usage if no args given
