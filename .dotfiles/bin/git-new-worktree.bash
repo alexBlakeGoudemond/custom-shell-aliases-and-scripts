@@ -6,17 +6,18 @@
 # For fun, we named this little tool as `TreeForge`
 #
 # Bash insights:
+# - 'git tag --sort=v:refname' lists all tags in semantic version order (v1.0.1 > v1.0.0)
 # - '$1' is argument 1
 # - 'basename' extracts final directory name
 # --------------------------------------------------------------------------------------------------------
 
 set -e  # exit if anything fails
 
-# Try to read TaskSmith version from Git tags in the dotfiles repo
-TREE_FORGE_VERSION=$(git -C "$(dirname "$0")/.." describe --tags --abbrev=0 2>/dev/null || echo "1.0.0")
+# Read the Most Recent Tag version from Git
+NEWEST_TAG_VERSION=$(git tag --sort=v:refname | tail -n 1 2>/dev/null || echo "1.0.0")
 
 echo ""
-echo "🌳  TreeForge $TREE_FORGE_VERSION — Git Worktree Crafter"
+echo "🌳  TreeForge $NEWEST_TAG_VERSION — Git Worktree Crafter"
 echo "───────────────────────────────────────────────────────────────"
 
 if [ -z "$1" ]; then
