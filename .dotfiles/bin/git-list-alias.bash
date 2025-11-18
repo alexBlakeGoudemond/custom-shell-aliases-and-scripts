@@ -10,11 +10,10 @@
 
 set -e  # exit if anything fails
 
-# Read the Most Recent Tag version from Git
-NEWEST_TAG_VERSION=$(git tag --sort=v:refname | tail -n 1 2>/dev/null || echo "1.0.0")
+ALIAS_VERSION="1.0.1"
 
 echo ""
-echo "🔍  ToolShed $NEWEST_TAG_VERSION — Reveals Git Alias'"
+echo "🔍  ToolShed $ALIAS_VERSION — Reveals Git Alias'"
 echo "───────────────────────────────────────────────────────────────"
 
 git config --get-regexp ^alias\.

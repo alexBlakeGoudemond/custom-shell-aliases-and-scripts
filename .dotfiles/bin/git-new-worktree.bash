@@ -13,11 +13,10 @@
 
 set -e  # exit if anything fails
 
-# Read the Most Recent Tag version from Git
-NEWEST_TAG_VERSION=$(git tag --sort=v:refname | tail -n 1 2>/dev/null || echo "1.0.0")
+ALIAS_VERSION="1.0.1"
 
 echo ""
-echo "🌳  TreeForge $NEWEST_TAG_VERSION — Git Worktree Crafter"
+echo "🌳  TreeForge ALIAS_VERSION — Git Worktree Crafter"
 echo "───────────────────────────────────────────────────────────────"
 
 if [ -z "$1" ]; then
