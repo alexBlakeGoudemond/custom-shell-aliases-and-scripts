@@ -16,7 +16,7 @@ set -e  # exit if anything fails
 ALIAS_VERSION="1.0.1"
 
 echo ""
-echo "🌳  TreeForge ALIAS_VERSION — Git Worktree Crafter"
+echo "🌳  TreeForge $ALIAS_VERSION — Git Worktree Crafter"
 echo "───────────────────────────────────────────────────────────────"
 
 if [ -z "$1" ]; then
