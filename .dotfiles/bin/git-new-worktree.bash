@@ -6,7 +6,6 @@
 # For fun, we named this little tool as `TreeForge`
 #
 # Bash insights:
-# - 'git tag --sort=v:refname' lists all tags in semantic version order (v1.0.1 > v1.0.0)
 # - '$1' is argument 1
 # - 'basename' extracts final directory name
 # --------------------------------------------------------------------------------------------------------
@@ -16,7 +15,7 @@ set -e  # exit if anything fails
 ALIAS_VERSION="1.0.1"
 
 echo ""
-echo "🌳  TreeForge $ALIAS_VERSION — Git Worktree Crafter"
+echo "🌳   TreeForge $ALIAS_VERSION — Git Worktree Crafter"
 echo "───────────────────────────────────────────────────────────────"
 
 if [ -z "$1" ]; then
@@ -49,15 +48,15 @@ fi
 mkdir -p "$(dirname "$worktree_dir")"
 
 # Create the worktree
-echo "➡️  Creating worktree at $worktree_dir"
+echo "➡️ Creating worktree at $worktree_dir"
 git worktree add "$worktree_dir" HEAD || { echo "Failed to add worktree"; exit 1; }
 
 # Use your existing 'git new' alias inside the worktree
 cd "$worktree_dir"
 git new "${allArguments[@]}"
 
-echo "✔️  Worktree created at $worktree_dir"
+echo "✔️ Worktree created at $worktree_dir"
 
 echo ""
-echo "🌳  TreeForge finished"
+echo "🌳   TreeForge finished"
 echo "───────────────────────────────────────────────────────────────"
