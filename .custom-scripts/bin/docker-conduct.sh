@@ -42,14 +42,11 @@ usage() {
 
 project_exists() {
   local pname="$1"
-  if [[ -n "$pname" ]]; then
-    docker compose ls --format json | grep -q "\"Name\": \"$pname\""
-  else
-    # Default project name (directory basename)
-    local default_name
-    default_name=$(basename "$(pwd)")
-    docker compose ls --format json | grep -q "\"Name\": \"$default_name\""
+  if [[ -z "$pname" ]]; then
+    pname=$(basename "$(pwd)")
   fi
+
+  docker compose ls --format json | grep -q "\"Name\":\"$pname\""
 }
 
 # Parse options
@@ -89,7 +86,7 @@ else
   # down command
   if project_exists "$PROJECT_NAME"; then
     echo "🛑 Dockerissimo is ceasing the playing..."
-    $COMPOSE_CMD down
+    $COMPOSE_CMD down --rmi local
     echo "✅ Project stopped and removed!"
   else
     echo "⚠️ No project to stop. Nothing to do."
