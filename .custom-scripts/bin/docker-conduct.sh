@@ -8,7 +8,7 @@
 # For fun, we named this little tool as `Dockerissimo`
 #
 # Bash insights:
-# -
+# - has custom defined functions which are invoked without parentheses, for example: `usage`
 # --------------------------------------------------------------------------------------------------------
 
 set -e  # exit if anything fails
@@ -16,13 +16,13 @@ set -e  # exit if anything fails
 ALIAS_VERSION="1.0.0"
 
 echo ""
-echo "🐋🪄 Dockerissimo $ALIAS_VERSION — Docker Compose Conductor 🎶"
+echo "🐋  Dockerissimo $ALIAS_VERSION — Docker Compose Conductor 🎶"
 echo "───────────────────────────────────────────────────────────────"
 
 
 # Default values
 COMPOSE_FILE="docker-compose.yml"
-PROJECT_NAME=""
+PROJECT_NAME="dockerissimo-default-container-group"
 COMMAND="up"
 
 usage() {
@@ -46,6 +46,7 @@ project_exists() {
     pname=$(basename "$(pwd)")
   fi
 
+  # find all container-groups / compose project groups with the name; `-q` produces exit status of 0 or 1
   docker compose ls --format json | grep -q "\"Name\":\"$pname\""
 }
 
@@ -73,7 +74,7 @@ if [[ -n "$PROJECT_NAME" ]]; then
   COMPOSE_CMD="$COMPOSE_CMD -p $PROJECT_NAME"
 fi
 
-# Execute commands
+# Execute commands, also invoke the function project_exists
 if [[ "$COMMAND" == "up" ]]; then
   if project_exists "$PROJECT_NAME"; then
     echo "⚠️ Project already exists! Will not start again."
@@ -85,7 +86,7 @@ if [[ "$COMMAND" == "up" ]]; then
 else
   # down command
   if project_exists "$PROJECT_NAME"; then
-    echo "🛑 Dockerissimo is ceasing the playing..."
+    echo "✋ Dockerissimo is ceasing the playing..."
     $COMPOSE_CMD down --rmi local
     echo "✅ Project stopped and removed!"
   else
@@ -94,5 +95,5 @@ else
 fi
 
 echo ""
-echo "🐋🪄 Dockerissimo finished 🎶"
+echo "🐋  Dockerissimo finished 🎶"
 echo "───────────────────────────────────────────────────────────────"
