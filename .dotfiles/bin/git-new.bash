@@ -6,7 +6,6 @@
 # For fun, we named this little tool as `TaskSmith`
 #
 # Bash insights:
-# - 'git tag --sort=v:refname' lists all tags in semantic version order (v1.0.1 > v1.0.0)
 # - '$1' is argument 1
 # - 'shift' moves the cursor right
 # - 'remaining' retrieves the parameters
@@ -18,7 +17,7 @@ set -e  # exit if anything fails
 ALIAS_VERSION="1.0.1"
 
 echo ""
-echo "🛠️  TaskSmith $ALIAS_VERSION — Git Branch Crafter"
+echo "🛠️   TaskSmith $ALIAS_VERSION — Git Branch Crafter"
 echo "───────────────────────────────────────────────────────────────"
 
 # Show usage if no args given
@@ -77,7 +76,7 @@ if [ -z "$branch" ]; then
   exit 1
 fi
 
-echo "➡️  Preparing branch: $branch"
+echo "➡️ Preparing branch: $branch"
 
 # Check if branch exists locally
 if git show-ref --verify --quiet "refs/heads/$branch"; then
@@ -96,5 +95,5 @@ else
 fi
 
 echo ""
-echo "🛠️  TaskSmith finished"
+echo "🛠️   TaskSmith finished"
 echo "───────────────────────────────────────────────────────────────"
