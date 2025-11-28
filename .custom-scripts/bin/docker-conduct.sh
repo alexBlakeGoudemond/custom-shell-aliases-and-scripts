@@ -2,9 +2,9 @@
 
 # --------------------------------------------------------------------------------------------------------
 # docker-conduct: Use docker compose to bring containers and images up or down
-# Usage: docker conduct -h
-# Usage: docker conduct -p <projectName> -f <composeFile>
-# Usage: docker conduct -c -p <projectName>
+# Usage: docker-conduct -h
+# Usage: docker-conduct -p <projectName> -f <composeFile>
+# Usage: docker-conduct -c -p <projectName>
 # For fun, we named this little tool as `Dockerissimo`
 #
 # Bash insights:
