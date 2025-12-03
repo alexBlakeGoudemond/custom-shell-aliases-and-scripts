@@ -46,8 +46,12 @@ project_exists() {
     pname=$(basename "$(pwd)")
   fi
 
-  # find all container-groups / compose project groups with the name; `-q` produces exit status of 0 or 1
-  docker ps -a -f "label=com.docker.compose.project=$pname"
+  # Check if any container exists for this Compose project
+  if docker ps -a -f "label=com.docker.compose.project=$pname" --format '{{.ID}}' | grep -q .; then
+    return 0   # exists
+  else
+    return 1   # does not exist
+  fi
 }
 
 # Parse options
