@@ -90,7 +90,9 @@ else
     $COMPOSE_CMD down --rmi local
     echo "✅ Project stopped and removed!"
   else
-    echo "⚠️ No project to stop. Nothing to do."
+    echo "🚦 project is not running, nothing to stop"
+    $COMPOSE_CMD down --rmi local
+    echo "✅ Project removed!"
   fi
 fi
 
