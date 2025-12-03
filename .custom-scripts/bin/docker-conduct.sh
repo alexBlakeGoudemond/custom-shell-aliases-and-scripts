@@ -47,7 +47,7 @@ project_exists() {
   fi
 
   # find all container-groups / compose project groups with the name; `-q` produces exit status of 0 or 1
-  docker compose ls --format json | grep -q "\"Name\":\"$pname\""
+  docker ps -a -f "label=com.docker.compose.project=$pname"
 }
 
 # Parse options
@@ -90,9 +90,7 @@ else
     $COMPOSE_CMD down --rmi local
     echo "✅ Project stopped and removed!"
   else
-    echo "🚦 project is not running, nothing to stop"
-    $COMPOSE_CMD down --rmi local
-    echo "✅ Project removed!"
+    echo "🤔 could not find container to stop"
   fi
 fi
 
