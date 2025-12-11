@@ -20,7 +20,7 @@ This script creates and pushes a new branch with naming conventions
 5. Reload the shell: `source ~/.bashrc`
 6. Use the command! `git new abc-123 testing the new script` --> `task/ABC-123/testing-the-new-script`
 
-Example Usage: ![TaskSmith Example Branch Creation](taskSmith_example_branch_creation_20251111.png)
+Example Usage: ![TaskSmith Example Branch Creation](taskSmith_example_branch_creation_20251211.png)
 
 ## Example - git new-worktree
 This script creates a new worktree and then leverages 'git new' to create a branch inside of it
