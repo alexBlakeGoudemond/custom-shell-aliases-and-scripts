@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # --------------------------------------------------------------------------------------------------------
-# git-new: create and push a new branch with some naming conventions
-# Usage: git new feature my cool thing
+# git-new-branch: create and push a new branch with some naming conventions
+# Usage: git new-branch feature my cool thing
 # For fun, we named this little tool as `TaskSmith`
 #
 # Bash insights:
