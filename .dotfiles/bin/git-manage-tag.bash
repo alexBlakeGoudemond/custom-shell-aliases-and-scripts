@@ -40,31 +40,37 @@ usage() {
 delete_tag() {
   local tag="$1"
 
-  echo "Deleting local tag: $tag"
+  echo "⚠️  Deleting local tag: $tag"
   git tag -d "$tag" || true
 
-  echo "Deleting remote tag: $tag"
+  echo "⚠️  Deleting remote tag: $tag"
   git push origin ":refs/tags/$tag"
 
-  echo "Done."
+  echo "✔️  Done."
 }
 
 create_tag() {
   local tag="$1"
   local msg="$2"
 
-  echo "Creating annotated tag: $tag"
+  echo "➡️  Creating annotated tag: $tag"
   git tag -a "$tag" -m "$msg"
 
-  echo "Pushing tag to origin: $tag"
+  echo "⬆️  Pushing tag to origin: $tag"
   git push origin "$tag"
 
-  echo "Done."
+  echo "✔️  Done."
 }
 
 show_tag() {
   local tag="$1"
   git show "$tag"
+}
+
+show_finished(){
+  echo ""
+  echo "🏷️   TagMaster finished"
+  echo "───────────────────────────────────────────────────────────────"
 }
 
 # --- Parse arguments ---
@@ -107,25 +113,25 @@ done
 
 if [[ -n "$delete" ]]; then
   delete_tag "$delete"
+  show_finished
   exit 0
 fi
 
 if [[ -n "$annotate" ]]; then
   if [[ -z "$message" ]]; then
-    echo "Error: -a requires -m <message>"
+    echo "❌ Error: -a requires -m <message>"
+    show_finished
     exit 1
   fi
   create_tag "$annotate" "$message"
+  show_finished
   exit 0
 fi
 
 if [[ -n "$show" ]]; then
   show_tag "$show"
+  show_finished
   exit 0
 fi
 
 usage
-
-echo ""
-echo "🏷️   TagMaster finished"
-echo "───────────────────────────────────────────────────────────────"
