@@ -76,7 +76,7 @@ if [ -z "$branch" ]; then
   exit 1
 fi
 
-echo "➡️ Preparing branch: $branch"
+echo "➡️  Preparing branch: $branch"
 
 # Check if branch exists locally
 if git show-ref --verify --quiet "refs/heads/$branch"; then
