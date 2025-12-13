@@ -4,6 +4,8 @@
 #
 # Usage: git display-tree [--depth N] <pathToDirectory>
 #
+# For fun, we named this little tool as `TreeLens`
+#
 # Features:
 #   - Ignores .git directories
 #   - Optional --depth to limit recursion
@@ -15,6 +17,10 @@
 set -euo pipefail
 
 ALIAS_VERSION="1.0.0"
+
+echo ""
+echo "🌲 🔎   TreeLens $ALIAS_VERSION — Show File Structure as a Tree"
+echo "───────────────────────────────────────────────────────────────"
 
 # Default depth: unlimited
 MAX_DEPTH=0
@@ -96,3 +102,7 @@ display_tree() {
 # Print root
 echo -e "${DIR_COLOR}$(basename "$TARGET")${RESET_COLOR}/"
 display_tree "$TARGET" 4 1
+
+echo ""
+echo "🌲 🔎   TreeLens finished"
+echo "───────────────────────────────────────────────────────────────"
