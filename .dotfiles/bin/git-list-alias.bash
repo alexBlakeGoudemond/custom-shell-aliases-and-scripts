@@ -3,6 +3,7 @@
 # --------------------------------------------------------------------------------------------------------
 # git-list-alias: list all of the alias' currently defined on your machine
 # Usage: git list-alias
+#
 # For fun, we named this little tool as `ToolShed`
 # --------------------------------------------------------------------------------------------------------
 
