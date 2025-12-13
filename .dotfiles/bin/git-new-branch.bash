@@ -3,6 +3,7 @@
 # --------------------------------------------------------------------------------------------------------
 # git-new-branch: create and push a new branch with some naming conventions
 # Usage: git new-branch feature my cool thing
+#
 # For fun, we named this little tool as `TaskSmith`
 #
 # Bash insights:
@@ -76,7 +77,7 @@ if [ -z "$branch" ]; then
   exit 1
 fi
 
-echo "➡️ Preparing branch: $branch"
+echo "➡️  Preparing branch: $branch"
 
 # Check if branch exists locally
 if git show-ref --verify --quiet "refs/heads/$branch"; then
