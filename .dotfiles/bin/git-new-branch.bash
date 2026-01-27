@@ -40,7 +40,7 @@ jira_key=""
 remaining=()
 
 # Detect if first arg is a known type or JIRA key
-if [[ "$first" =~ ^(feature|bugfix|hotfix|release)$ ]]; then
+if [[ "$first" =~ ^(feature|bugfix|hotfix|release|deploy)$ ]]; then
   type="$first"
 elif [[ "$first" =~ ^[A-Za-z]+-[0-9]+$ ]]; then
   jira_key=$(echo "$first" | tr '[:lower:]' '[:upper:]')
