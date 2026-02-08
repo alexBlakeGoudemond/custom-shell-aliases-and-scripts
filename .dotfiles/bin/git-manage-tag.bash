@@ -41,7 +41,8 @@ usage() {
 
 list_tags() {
   echo "➡️  Listing all tags:"
-  git tag
+  # List tags with their messages (up to 500 chars)
+  git tag -n500
 }
 
 delete_tag() {
