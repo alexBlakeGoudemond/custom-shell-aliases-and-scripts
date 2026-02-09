@@ -8,6 +8,7 @@
 # "  -d <tagName>             Delete a tag locally AND on origin"
 # "  -a <tagName> -m <msg>    Create annotated tag and push to origin"
 # "  -s <tagName>             Show details for a tag"
+# "  -l                       List all tags"
 #
 # For fun, we named this little tool as `TaskSmith`
 #
@@ -33,8 +34,15 @@ usage() {
   echo "  -d <tagName>             Delete a tag locally AND on origin"
   echo "  -a <tagName> -m <msg>    Create annotated tag and push to origin"
   echo "  -s <tagName>             Show details for a tag"
+  echo "  -l                       List all tags"
   echo
   exit 1
+}
+
+list_tags() {
+  echo "➡️  Listing all tags:"
+  # List tags with their messages (up to 500 chars)
+  git tag -n500
 }
 
 delete_tag() {
@@ -83,6 +91,7 @@ delete=""
 annotate=""
 message=""
 show=""
+list=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -101,6 +110,10 @@ while [[ $# -gt 0 ]]; do
     -s)
       show="$2"
       shift 2
+      ;;
+    -l)
+      list="true"
+      shift
       ;;
     *)
       echo "Unknown argument: $1"
@@ -130,6 +143,12 @@ fi
 
 if [[ -n "$show" ]]; then
   show_tag "$show"
+  show_finished
+  exit 0
+fi
+
+if [[ "$list" == "true" ]]; then
+  list_tags
   show_finished
   exit 0
 fi
