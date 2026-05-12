@@ -2,7 +2,7 @@
 
 # --------------------------------------------------------------------------------------------------------
 # custom-list-alias: Quickly describe your custom scripts and git aliases in one place
-# Usage: custom-list-alias
+# Usage: toolshed
 #
 # For fun, we named this little tool as `ToolShed`
 # --------------------------------------------------------------------------------------------------------
