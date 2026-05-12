@@ -12,7 +12,7 @@ set -e  # exit if anything fails
 ALIAS_VERSION="1.0.2"
 
 echo ""
-echo "🔍   ToolShed $ALIAS_VERSION — Reveals Git Alias'"
+echo "🔍   ToolShed $ALIAS_VERSION — Reveals Git Alias' and Custom Scripts"
 echo "───────────────────────────────────────────────────────────────"
 
 CUSTOM_SCRIPTS_DIR="$HOME/.custom-scripts"
