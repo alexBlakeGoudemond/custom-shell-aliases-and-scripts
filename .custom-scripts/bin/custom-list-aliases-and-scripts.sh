@@ -15,8 +15,26 @@ echo ""
 echo "🔍   ToolShed $ALIAS_VERSION — Reveals Git Alias' and Custom Scripts"
 echo "───────────────────────────────────────────────────────────────"
 
-CUSTOM_SCRIPTS_DIR="$HOME/.custom-scripts"
-GITCONFIG="$HOME/.gitconfig"
+detect_home() {
+    # WSL
+    if grep -qi microsoft /proc/version 2>/dev/null; then
+        echo "$(wslpath "$(cmd.exe /c echo %USERPROFILE% 2>/dev/null | tr -d '\r')")"
+        return
+    fi
+
+    # MSYS / Git Bash on Windows
+    if [[ "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then
+        echo "$USERPROFILE"
+        return
+    fi
+
+    # Normal Linux/macOS
+    echo "$HOME"
+}
+
+HOME_DIR="$(detect_home)"
+CUSTOM_SCRIPTS_DIR="$HOME_DIR/.custom-scripts"
+GITCONFIG="$HOME_DIR/.gitconfig"
 
 echo "========================================"
 echo " Custom Scripts"
@@ -24,7 +42,9 @@ echo "========================================"
 
 if [ -d "$CUSTOM_SCRIPTS_DIR" ]; then
     # List only files (not directories)
-    find "$CUSTOM_SCRIPTS_DIR" -maxdepth 1 -type f -printf "%f\n" | sort
+    for file in "$CUSTOM_SCRIPTS_DIR"/*; do
+        [ -f "$file" ] && basename "$file"
+    done | sort
 else
     echo "Custom scripts directory not found:"
     echo "$CUSTOM_SCRIPTS_DIR"
@@ -35,12 +55,7 @@ echo "========================================"
 echo " Git Aliases"
 echo "========================================"
 
-if [ -f "$GITCONFIG" ]; then
-    git config --get-regexp ^alias\.
-else
-    echo ".gitconfig not found:"
-    echo "$GITCONFIG"
-fi
+git.exe config --show-origin --get-regexp '^alias\.' || echo "No aliases found"
 
 echo ""
 echo "🔍   ToolShed finished"
