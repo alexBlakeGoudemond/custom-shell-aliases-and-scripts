@@ -15,11 +15,8 @@ echo ""
 echo "🔍   ToolShed $ALIAS_VERSION — Reveals Git Alias'"
 echo "───────────────────────────────────────────────────────────────"
 
-# Directory containing your custom scripts
-CUSTOM_SCRIPTS_DIR="/c/Users/alexander.goudemond/.custom-scripts"
-
-# Git config location
-GITCONFIG="/c/Users/alexander.goudemond/.gitconfig"
+CUSTOM_SCRIPTS_DIR="$HOME/.custom-scripts"
+GITCONFIG="$HOME/.gitconfig"
 
 echo "========================================"
 echo " Custom Scripts"
