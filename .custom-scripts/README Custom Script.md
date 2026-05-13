@@ -44,7 +44,7 @@ This script creates a new worktree and then leverages 'docker-conduct' to quickl
 6. (N/A)
 7. (N/A)
 
-Example Usage: ![dockerissimo_example_help_command.png](dockerissimo_example_help_command.png)
+Example Usage: ![dockerissimo_example_help_command.png](docker-conduct-example.png)
 
 ## Example - toolshed
 This script creates a new worktree and then leverages 'toolshed' to display git aliases and custom scripts
