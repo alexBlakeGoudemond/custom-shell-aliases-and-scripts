@@ -9,7 +9,7 @@
 
 set -e  # exit if anything fails
 
-ALIAS_VERSION="1.0.0"
+ALIAS_VERSION="1.0.1"
 
 echo ""
 echo "🪞 ⁉️  WhoAmI $ALIAS_VERSION — Git Environment Identifier"
@@ -19,7 +19,8 @@ echo ""
 userEmail=$(git config user.email)
 userName=$(git config user.name)
 remoteOriginUrl=$(git config remote.origin.url)
-remoteOriginAuthor=$(basename -s .git "$(dirname "${remoteOriginUrl#*:}")")
+remoteOriginPath=${remoteOriginUrl#*:}      # remove everything before :
+remoteOriginAuthor=${remoteOriginPath%/*}   # remove final /repo-name
 printf "%-23s%s\n" "User Name:" "$userName"
 printf "%-23s%s\n"  "User Email:" "$userEmail"
 printf "%-23s%s\n"  "Remote Origin Author:" "$remoteOriginAuthor"
