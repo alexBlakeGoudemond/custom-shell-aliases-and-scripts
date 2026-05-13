@@ -10,7 +10,7 @@
 # "  -s <tagName>             Show details for a tag"
 # "  -l                       List all tags"
 #
-# For fun, we named this little tool as `TaskSmith`
+# For fun, we named this little tool as `TagMaster`
 #
 # Bash insights:
 # - '$1' is argument 1

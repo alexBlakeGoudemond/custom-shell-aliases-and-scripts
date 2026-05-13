@@ -23,7 +23,7 @@ This script creates and pushes a new branch with naming conventions
 
 Example Usage: 
 
-![TaskSmith Example Branch Creation](taskSmith-example-branch-creation-20251211.png)
+![TaskSmith Example Branch Creation](git-new-branch-example.png)
 
 ## Example - git new-worktree
 This script creates a new worktree and then leverages 'git new' to create a branch inside of it
@@ -36,7 +36,7 @@ This script creates a new worktree and then leverages 'git new' to create a bran
 
 Example Usage: 
 
-![TreeForge Example Worktree Creation](treeForge-example-worktree-creation-20251116.png)
+![TreeForge Example Worktree Creation](git-new-worktree-example.png)
 
 ## Example - git manage-tag
 This script creates a new tag and pushes to Origin
@@ -49,4 +49,4 @@ This script creates a new tag and pushes to Origin
 
 Example Usage: 
 
-![tagMaster-example-tag-creation-20251211.png](tagMaster-example-tag-creation-20251211.png)
+![tagMaster-example-tag-creation-20251211.png](git-manage-tag-example.png)
