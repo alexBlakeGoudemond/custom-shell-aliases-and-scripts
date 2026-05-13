@@ -34,7 +34,6 @@ detect_home() {
 
 HOME_DIR="$(detect_home)"
 CUSTOM_SCRIPTS_DIR="$HOME_DIR/.custom-scripts"
-GITCONFIG="$HOME_DIR/.gitconfig"
 
 echo "========================================"
 echo " Custom Scripts"
