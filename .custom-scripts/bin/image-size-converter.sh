@@ -56,7 +56,7 @@ fi
 # ----------------------------------------
 # Check magick exists
 # ----------------------------------------
-if ! magick --version >/dev/null 2>&1; then
+if ! command -v magick.exe >/dev/null 2>&1; then
     echo "❌ Error: ImageMagick command 'magick' is not installed."
     echo "Please install ImageMagick and try again."
     exit 1
@@ -140,7 +140,7 @@ echo "  Width  : $WIDTH"
 echo "  Height : $HEIGHT"
 echo "  Output : $OUTPUT_PATH"
 
-magick "$IMAGE_SOURCE" -resize "${WIDTH}x${HEIGHT}" "$OUTPUT_PATH"
+magick.exe "$IMAGE_SOURCE" -resize "${WIDTH}x${HEIGHT}" "$OUTPUT_PATH"
 
 echo ""
 echo "✅ Done!"
