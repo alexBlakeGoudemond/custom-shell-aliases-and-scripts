@@ -137,13 +137,13 @@ OUTPUT_PATH="${SOURCE_DIR}/${OUTPUT_FILE}"
 # ----------------------------------------
 # Resize image
 # ----------------------------------------
-echo "🔃 Resizing image..."
+echo "🔃 Resizing image to these exact dimensions (not aspect:ratio) ..."
 echo "  Source : $IMAGE_SOURCE"
 echo "  Width  : $WIDTH"
 echo "  Height : $HEIGHT"
 echo "  Output : $OUTPUT_PATH"
 
-magick.exe "$IMAGE_SOURCE" -resize "${WIDTH}x${HEIGHT}" "$OUTPUT_PATH"
+magick.exe "$IMAGE_SOURCE" -resize "${WIDTH}x${HEIGHT}!" "$OUTPUT_PATH"
 
 echo ""
 echo "✅ Done!"
