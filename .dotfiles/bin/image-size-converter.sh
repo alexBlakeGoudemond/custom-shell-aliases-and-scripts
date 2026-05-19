@@ -65,16 +65,19 @@ fi
 # ----------------------------------------
 # Required positional arg
 # ----------------------------------------
-IMAGE_SOURCE="$1"
+IMAGE_SOURCE="${GIT_PREFIX}$1"
 shift
 
 # ----------------------------------------
 # Validate source image exists
 # ----------------------------------------
-if [ ! -f "$IMAGE_SOURCE" ]; then
+
+if [[ ! -f "$IMAGE_SOURCE" ]]; then
     echo "❌ Error: File does not exist:"
     echo "  $IMAGE_SOURCE"
     exit 1
+else
+    echo "✅ Found source image: $IMAGE_SOURCE"
 fi
 
 # ----------------------------------------
