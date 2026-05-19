@@ -7,7 +7,7 @@
 # For fun, we named this little tool as `image-resize`
 # --------------------------------------------------------------------------------------------------------
 
-set -e  # exit if anything fails
+set -e
 
 ALIAS_VERSION="1.0.0"
 
@@ -30,14 +30,10 @@ print_usage() {
     echo "  image-resize photo.png -w 1920 -h 1080"
     echo "  image-resize photo.png -w 800 -h 600 -o my-output.png"
     echo ""
-    echo "Defaults:"
-    echo "  width  = ${DEFAULT_WIDTH}"
-    echo "  height = ${DEFAULT_HEIGHT}"
-    echo ""
 }
 
 ensure_image_source() {
-    if [ $# -lt 1 ]; then
+    if [ -z "$IMAGE_SOURCE_ARG" ]; then
         echo "❌ Error: Missing <imageSource>"
         print_usage
         exit 1
@@ -45,11 +41,10 @@ ensure_image_source() {
 }
 
 ensure_image_magick_installed() {
-  if ! command -v magick.exe >/dev/null 2>&1; then
-      echo "❌ Error: ImageMagick command 'magick' is not installed."
-      echo "Please install ImageMagick and try again."
-      exit 1
-  fi
+    if ! command -v magick.exe >/dev/null 2>&1; then
+        echo "❌ Error: ImageMagick command 'magick' is not installed."
+        exit 1
+    fi
 }
 
 validate_source_image_exists() {
@@ -57,59 +52,66 @@ validate_source_image_exists() {
         echo "❌ Error: File does not exist:"
         echo "  $IMAGE_SOURCE"
         exit 1
-    else
-        echo "✅ Found source image: $IMAGE_SOURCE"
     fi
+
+    echo "✅ Found source image: $IMAGE_SOURCE"
 }
 
-set_common_variables() {
-  WIDTH="$DEFAULT_WIDTH"
-  HEIGHT="$DEFAULT_HEIGHT"
-  CUSTOM_OUTPUT_NAME=""
+parse_args() {
+    WIDTH="$DEFAULT_WIDTH"
+    HEIGHT="$DEFAULT_HEIGHT"
+    CUSTOM_OUTPUT_NAME=""
 
-  OPTIND=1
+    OPTIND=1
 
-  while getopts "w:h:o:" opt; do
-      case $opt in
-          w) WIDTH="$OPTARG" ;;
-          h) HEIGHT="$OPTARG" ;;
-          o) CUSTOM_OUTPUT_NAME="$OPTARG" ;;
-          *) print_usage; exit 1 ;;
-      esac
-  done
+    # 🔥 CRITICAL FIX: rebind positional args for getopts
+    set -- "$@"
+
+    while getopts "w:h:o:" opt; do
+        case "$opt" in
+            w) WIDTH="$OPTARG" ;;
+            h) HEIGHT="$OPTARG" ;;
+            o) CUSTOM_OUTPUT_NAME="$OPTARG" ;;
+            *) print_usage; exit 1 ;;
+        esac
+    done
+
+    shift $((OPTIND - 1))
 }
 
-determine_output_filename(){
-  SUFFIX="-resized-${WIDTH}-${HEIGHT}"
-  if [ -n "$CUSTOM_OUTPUT_NAME" ]; then
+determine_output_filename() {
+    SUFFIX="-resized-${WIDTH}-${HEIGHT}"
 
-      CUSTOM_BASE="$(basename "$CUSTOM_OUTPUT_NAME")"
+    if [ -n "$CUSTOM_OUTPUT_NAME" ]; then
+        CUSTOM_BASE="$(basename "$CUSTOM_OUTPUT_NAME")"
+        CUSTOM_NAME_ONLY="${CUSTOM_BASE%.*}"
+        OUTPUT_FILE="${CUSTOM_NAME_ONLY}${SUFFIX}.${SOURCE_EXT}"
+    else
+        OUTPUT_FILE="${SOURCE_NAME}${SUFFIX}.${SOURCE_EXT}"
+    fi
 
-      # Remove extension if provided
-      CUSTOM_NAME_ONLY="${CUSTOM_BASE%.*}"
-
-      OUTPUT_FILE="${CUSTOM_NAME_ONLY}${SUFFIX}.${SOURCE_EXT}"
-  else
-      OUTPUT_FILE="${SOURCE_NAME}${SUFFIX}.${SOURCE_EXT}"
-  fi
-  OUTPUT_PATH="${SOURCE_DIR}/${OUTPUT_FILE}"
+    OUTPUT_PATH="${SOURCE_DIR}/${OUTPUT_FILE}"
 }
 
-resize_with_image_magick(){
-  magick.exe "$IMAGE_SOURCE" -resize "${WIDTH}x${HEIGHT}!" "$OUTPUT_PATH"
+resize_with_image_magick() {
+    magick.exe "$IMAGE_SOURCE" -resize "${WIDTH}x${HEIGHT}!" "$OUTPUT_PATH"
 }
 
-# ------------------------------------
-# Actual script execution starts here
-# ------------------------------------
-ensure_image_source "$@"
+# -------------------------------
+# ENTRY POINT
+# -------------------------------
+
+IMAGE_SOURCE_ARG="$1"
+shift
+
+ensure_image_source
 ensure_image_magick_installed
 
-IMAGE_SOURCE="$(realpath "${GIT_PREFIX}$1")"
-shift
+IMAGE_SOURCE="$(realpath "${GIT_PREFIX}${IMAGE_SOURCE_ARG}")"
+
 validate_source_image_exists
 
-set_common_variables "$@"
+parse_args "$@"
 
 SOURCE_DIR="$(dirname "$IMAGE_SOURCE")"
 SOURCE_FILE="$(basename "$IMAGE_SOURCE")"
@@ -119,7 +121,7 @@ SOURCE_EXT="${SOURCE_FILE##*.}"
 
 determine_output_filename
 
-echo "🔃 Resizing image to these exact dimensions (not aspect:ratio) ..."
+echo "🔃 Resizing image to these exact dimensions (not aspect ratio)..."
 echo "  Source : $IMAGE_SOURCE"
 echo "  Width  : $WIDTH"
 echo "  Height : $HEIGHT"
