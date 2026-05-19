@@ -83,26 +83,16 @@ parse_args() {
     while [[ $# -gt 0 ]]; do
         case "$1" in
             -w|--width)
-                WIDTH="$(consume_value_option "$1" "$2")"
-                shift 2
-                ;;
+                WIDTH="$(consume_value_option "$1" "$2")"; shift 2 ;;
             -h|--height)
-                HEIGHT="$(consume_value_option "$1" "$2")"
-                shift 2
-                ;;
+                HEIGHT="$(consume_value_option "$1" "$2")"; shift 2 ;;
             -o|--output)
-                CUSTOM_OUTPUT_NAME="$(consume_value_option "$1" "$2")"
-                shift 2
-                ;;
+                CUSTOM_OUTPUT_NAME="$(consume_value_option "$1" "$2")"; shift 2 ;;
             --)
-                shift
-                break
-                ;;
+                shift; break ;;
             -*)
                 echo "❌ Unknown option: $1"
-                print_usage
-                exit 1
-                ;;
+                print_usage; exit 1 ;;
             *)
                 if [[ -z "$IMAGE_SOURCE_ARG" ]]; then
                     IMAGE_SOURCE_ARG="$1"
