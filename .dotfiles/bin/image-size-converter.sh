@@ -15,8 +15,6 @@ echo ""
 echo "📷   ImageResize $ALIAS_VERSION — Convert Image Dimensions with ImageMagick 🎨"
 echo "───────────────────────────────────────────────────────────────"
 
-set -e
-
 DEFAULT_WIDTH=1280
 DEFAULT_HEIGHT=800
 
@@ -69,21 +67,14 @@ set_common_variables() {
   HEIGHT="$DEFAULT_HEIGHT"
   CUSTOM_OUTPUT_NAME=""
 
+  OPTIND=1
+
   while getopts "w:h:o:" opt; do
-      case ${opt} in
-          w)
-              WIDTH="$OPTARG"
-              ;;
-          h)
-              HEIGHT="$OPTARG"
-              ;;
-          o)
-              CUSTOM_OUTPUT_NAME="$OPTARG"
-              ;;
-          *)
-              print_usage
-              exit 1
-              ;;
+      case $opt in
+          w) WIDTH="$OPTARG" ;;
+          h) HEIGHT="$OPTARG" ;;
+          o) CUSTOM_OUTPUT_NAME="$OPTARG" ;;
+          *) print_usage; exit 1 ;;
       esac
   done
 }
@@ -114,11 +105,11 @@ resize_with_image_magick(){
 ensure_image_source "$@"
 ensure_image_magick_installed
 
-IMAGE_SOURCE="${GIT_PREFIX}$1"
+IMAGE_SOURCE="$(realpath "${GIT_PREFIX}$1")"
 shift
 validate_source_image_exists
 
-set_common_variables
+set_common_variables "$@"
 
 SOURCE_DIR="$(dirname "$IMAGE_SOURCE")"
 SOURCE_FILE="$(basename "$IMAGE_SOURCE")"
