@@ -57,55 +57,59 @@ validate_source_image_exists() {
     echo "✅ Found source image: $IMAGE_SOURCE"
 }
 
+is_value() {
+    [[ -n "$1" && ! "$1" =~ ^- ]]
+}
+
+consume_value_option() {
+    local opt_name="$1"
+    local value="$2"
+
+    if is_value "$value"; then
+        echo "$value"
+        return 0
+    else
+        echo "❌ Error: $opt_name requires a value"
+        exit 1
+    fi
+}
+
 parse_args() {
     WIDTH="$DEFAULT_WIDTH"
     HEIGHT="$DEFAULT_HEIGHT"
     CUSTOM_OUTPUT_NAME=""
+    IMAGE_SOURCE_ARG=""
 
-    # Walk through all args and consume known flags. The first non-flag
-    # argument is treated as the image source (if not already provided).
-    while [[ "$#" -gt 0 ]]; do
+    while [[ $# -gt 0 ]]; do
         case "$1" in
             -w|--width)
-                if [[ -n "$2" && ! "$2" =~ ^- ]]; then
-                    WIDTH="$2"
-                    shift 2
-                else
-                    echo "❌ Error: -w|--width requires a value"; exit 1
-                fi
+                WIDTH="$(consume_value_option "$1" "$2")"
+                shift 2
                 ;;
             -h|--height)
-                if [[ -n "$2" && ! "$2" =~ ^- ]]; then
-                    HEIGHT="$2"
-                    shift 2
-                else
-                    echo "❌ Error: -h|--height requires a value"; exit 1
-                fi
+                HEIGHT="$(consume_value_option "$1" "$2")"
+                shift 2
                 ;;
             -o|--output)
-                if [[ -n "$2" && ! "$2" =~ ^- ]]; then
-                    CUSTOM_OUTPUT_NAME="$2"
-                    shift 2
-                else
-                    echo "❌ Error: -o|--output requires a value"; exit 1
-                fi
+                CUSTOM_OUTPUT_NAME="$(consume_value_option "$1" "$2")"
+                shift 2
                 ;;
             --)
-                shift; break
+                shift
+                break
                 ;;
             -*)
-                echo "❌ Unknown option: $1"; print_usage; exit 1
+                echo "❌ Unknown option: $1"
+                print_usage
+                exit 1
                 ;;
             *)
-                # first non-option argument (if supplied here) is the image source
-                if [ -z "$IMAGE_SOURCE_ARG" ]; then
+                if [[ -z "$IMAGE_SOURCE_ARG" ]]; then
                     IMAGE_SOURCE_ARG="$1"
-                    shift
                 else
-                    # allow extra trailing args but warn
                     echo "⚠️  Ignoring extra argument: $1"
-                    shift
                 fi
+                shift
                 ;;
         esac
     done
