@@ -62,21 +62,53 @@ parse_args() {
     HEIGHT="$DEFAULT_HEIGHT"
     CUSTOM_OUTPUT_NAME=""
 
-    OPTIND=1
-
-    # 🔥 CRITICAL FIX: rebind positional args for getopts
-    set -- "$@"
-
-    while getopts "w:h:o:" opt; do
-        case "$opt" in
-            w) WIDTH="$OPTARG" ;;
-            h) HEIGHT="$OPTARG" ;;
-            o) CUSTOM_OUTPUT_NAME="$OPTARG" ;;
-            *) print_usage; exit 1 ;;
+    # Walk through all args and consume known flags. The first non-flag
+    # argument is treated as the image source (if not already provided).
+    while [[ "$#" -gt 0 ]]; do
+        case "$1" in
+            -w|--width)
+                if [[ -n "$2" && ! "$2" =~ ^- ]]; then
+                    WIDTH="$2"
+                    shift 2
+                else
+                    echo "❌ Error: -w|--width requires a value"; exit 1
+                fi
+                ;;
+            -h|--height)
+                if [[ -n "$2" && ! "$2" =~ ^- ]]; then
+                    HEIGHT="$2"
+                    shift 2
+                else
+                    echo "❌ Error: -h|--height requires a value"; exit 1
+                fi
+                ;;
+            -o|--output)
+                if [[ -n "$2" && ! "$2" =~ ^- ]]; then
+                    CUSTOM_OUTPUT_NAME="$2"
+                    shift 2
+                else
+                    echo "❌ Error: -o|--output requires a value"; exit 1
+                fi
+                ;;
+            --)
+                shift; break
+                ;;
+            -*)
+                echo "❌ Unknown option: $1"; print_usage; exit 1
+                ;;
+            *)
+                # first non-option argument (if supplied here) is the image source
+                if [ -z "$IMAGE_SOURCE_ARG" ]; then
+                    IMAGE_SOURCE_ARG="$1"
+                    shift
+                else
+                    # allow extra trailing args but warn
+                    echo "⚠️  Ignoring extra argument: $1"
+                    shift
+                fi
+                ;;
         esac
     done
-
-    shift $((OPTIND - 1))
 }
 
 determine_output_filename() {
