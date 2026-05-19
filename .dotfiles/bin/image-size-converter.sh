@@ -17,15 +17,9 @@ echo "────────────────────────�
 
 set -e
 
-# ----------------------------------------
-# Defaults
-# ----------------------------------------
 DEFAULT_WIDTH=1280
 DEFAULT_HEIGHT=800
 
-# ----------------------------------------
-# Helpers
-# ----------------------------------------
 print_usage() {
     echo ""
     echo "image-resize: Resize an image using ImageMagick"
@@ -44,106 +38,103 @@ print_usage() {
     echo ""
 }
 
-# ----------------------------------------
-# Ensure at least 1 argument exists
-# ----------------------------------------
-if [ $# -lt 1 ]; then
-    echo "❌ Error: Missing <imageSource>"
-    print_usage
-    exit 1
-fi
+ensure_image_source() {
+    if [ $# -lt 1 ]; then
+        echo "❌ Error: Missing <imageSource>"
+        print_usage
+        exit 1
+    fi
+}
 
-# ----------------------------------------
-# Check magick exists
-# ----------------------------------------
-if ! command -v magick.exe >/dev/null 2>&1; then
-    echo "❌ Error: ImageMagick command 'magick' is not installed."
-    echo "Please install ImageMagick and try again."
-    exit 1
-fi
+ensure_image_magick_installed() {
+  if ! command -v magick.exe >/dev/null 2>&1; then
+      echo "❌ Error: ImageMagick command 'magick' is not installed."
+      echo "Please install ImageMagick and try again."
+      exit 1
+  fi
+}
 
-# ----------------------------------------
-# Required positional arg
-# ----------------------------------------
+validate_source_image_exists() {
+    if [[ ! -f "$IMAGE_SOURCE" ]]; then
+        echo "❌ Error: File does not exist:"
+        echo "  $IMAGE_SOURCE"
+        exit 1
+    else
+        echo "✅ Found source image: $IMAGE_SOURCE"
+    fi
+}
+
+set_common_variables() {
+  WIDTH="$DEFAULT_WIDTH"
+  HEIGHT="$DEFAULT_HEIGHT"
+  CUSTOM_OUTPUT_NAME=""
+
+  while getopts "w:h:o:" opt; do
+      case ${opt} in
+          w)
+              WIDTH="$OPTARG"
+              ;;
+          h)
+              HEIGHT="$OPTARG"
+              ;;
+          o)
+              CUSTOM_OUTPUT_NAME="$OPTARG"
+              ;;
+          *)
+              print_usage
+              exit 1
+              ;;
+      esac
+  done
+}
+
+determine_output_filename(){
+  SUFFIX="-resized-${WIDTH}-${HEIGHT}"
+  if [ -n "$CUSTOM_OUTPUT_NAME" ]; then
+
+      CUSTOM_BASE="$(basename "$CUSTOM_OUTPUT_NAME")"
+
+      # Remove extension if provided
+      CUSTOM_NAME_ONLY="${CUSTOM_BASE%.*}"
+
+      OUTPUT_FILE="${CUSTOM_NAME_ONLY}${SUFFIX}.${SOURCE_EXT}"
+  else
+      OUTPUT_FILE="${SOURCE_NAME}${SUFFIX}.${SOURCE_EXT}"
+  fi
+  OUTPUT_PATH="${SOURCE_DIR}/${OUTPUT_FILE}"
+}
+
+resize_with_image_magick(){
+  magick.exe "$IMAGE_SOURCE" -resize "${WIDTH}x${HEIGHT}!" "$OUTPUT_PATH"
+}
+
+# ------------------------------------
+# Actual script execution starts here
+# ------------------------------------
+ensure_image_source "$@"
+ensure_image_magick_installed
+
 IMAGE_SOURCE="${GIT_PREFIX}$1"
 shift
+validate_source_image_exists
 
-# ----------------------------------------
-# Validate source image exists
-# ----------------------------------------
+set_common_variables
 
-if [[ ! -f "$IMAGE_SOURCE" ]]; then
-    echo "❌ Error: File does not exist:"
-    echo "  $IMAGE_SOURCE"
-    exit 1
-else
-    echo "✅ Found source image: $IMAGE_SOURCE"
-fi
-
-# ----------------------------------------
-# Optional args
-# ----------------------------------------
-WIDTH="$DEFAULT_WIDTH"
-HEIGHT="$DEFAULT_HEIGHT"
-CUSTOM_OUTPUT_NAME=""
-
-while getopts "w:h:o:" opt; do
-    case ${opt} in
-        w)
-            WIDTH="$OPTARG"
-            ;;
-        h)
-            HEIGHT="$OPTARG"
-            ;;
-        o)
-            CUSTOM_OUTPUT_NAME="$OPTARG"
-            ;;
-        *)
-            print_usage
-            exit 1
-            ;;
-    esac
-done
-
-# ----------------------------------------
-# File path parsing
-# ----------------------------------------
 SOURCE_DIR="$(dirname "$IMAGE_SOURCE")"
 SOURCE_FILE="$(basename "$IMAGE_SOURCE")"
 
 SOURCE_NAME="${SOURCE_FILE%.*}"
 SOURCE_EXT="${SOURCE_FILE##*.}"
 
-SUFFIX="-resized-${WIDTH}-${HEIGHT}"
+determine_output_filename
 
-# ----------------------------------------
-# Determine output filename
-# Always enforce suffix
-# ----------------------------------------
-if [ -n "$CUSTOM_OUTPUT_NAME" ]; then
-
-    CUSTOM_BASE="$(basename "$CUSTOM_OUTPUT_NAME")"
-
-    # Remove extension if provided
-    CUSTOM_NAME_ONLY="${CUSTOM_BASE%.*}"
-
-    OUTPUT_FILE="${CUSTOM_NAME_ONLY}${SUFFIX}.${SOURCE_EXT}"
-else
-    OUTPUT_FILE="${SOURCE_NAME}${SUFFIX}.${SOURCE_EXT}"
-fi
-
-OUTPUT_PATH="${SOURCE_DIR}/${OUTPUT_FILE}"
-
-# ----------------------------------------
-# Resize image
-# ----------------------------------------
 echo "🔃 Resizing image to these exact dimensions (not aspect:ratio) ..."
 echo "  Source : $IMAGE_SOURCE"
 echo "  Width  : $WIDTH"
 echo "  Height : $HEIGHT"
 echo "  Output : $OUTPUT_PATH"
 
-magick.exe "$IMAGE_SOURCE" -resize "${WIDTH}x${HEIGHT}!" "$OUTPUT_PATH"
+resize_with_image_magick
 
 echo ""
 echo "✅ Done!"
