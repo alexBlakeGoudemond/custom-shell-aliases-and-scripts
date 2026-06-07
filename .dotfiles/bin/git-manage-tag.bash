@@ -22,7 +22,7 @@
 
 set -e  # exit if anything fails
 
-ALIAS_VERSION="1.1.0"
+ALIAS_VERSION="1.1.1"
 
 echo ""
 echo "🏷️   TagMaster $ALIAS_VERSION — Git Tag Manager"
@@ -43,8 +43,8 @@ usage() {
 
 list_tags() {
   echo "➡️  Listing all tags:"
-  # List tags with their messages (up to 500 chars)
-  git tag -n500
+  # List tags with their messages (up to 500 chars), sorted in natural/version order (1, 2, 3, ..., 10, 11, ...)
+  git tag -n500 --sort=version:refname
 }
 
 delete_tag() {
