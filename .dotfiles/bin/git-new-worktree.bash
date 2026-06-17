@@ -54,7 +54,7 @@ git worktree add "$worktree_dir" HEAD || { echo "Failed to add worktree"; exit 1
 
 # Use your existing 'git new' alias inside the worktree
 cd "$worktree_dir"
-git new "${allArguments[@]}"
+git new-branch "${allArguments[@]}"
 
 echo "✔️ Worktree created at $worktree_dir"
 
