@@ -15,7 +15,7 @@
 
 set -e  # exit if anything fails
 
-ALIAS_VERSION="1.0.1"
+ALIAS_VERSION="1.1.0"
 
 echo ""
 echo "🛠️   TaskSmith $ALIAS_VERSION — Git Branch Crafter"
@@ -40,7 +40,7 @@ jira_key=""
 remaining=()
 
 # Detect if first arg is a known type or JIRA key
-if [[ "$first" =~ ^(feature|bugfix|hotfix|release|deploy)$ ]]; then
+if [[ "$first" =~ ^(task|feature|bugfix|hotfix|release|deploy|worktree)$ ]]; then
   type="$first"
 elif [[ "$first" =~ ^[A-Za-z]+-[0-9]+$ ]]; then
   jira_key=$(echo "$first" | tr '[:lower:]' '[:upper:]')
