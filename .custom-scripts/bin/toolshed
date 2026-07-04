@@ -3,9 +3,9 @@
 # extensionless shim for Git Bash / WSL to run the Python ToolShed
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if command -v python3 >/dev/null 2>&1; then
-  python3 "$SCRIPT_DIR/list-git-aliases-and-custom-scripts.py" "$@"
+  python3 "$SCRIPT_DIR/toolshed.py" "$@"
 elif command -v python >/dev/null 2>&1; then
-  python "$SCRIPT_DIR/list-git-aliases-and-custom-scripts.py" "$@"
+  python "$SCRIPT_DIR/toolshed.py" "$@"
 else
   echo "Python not found on PATH" >&2
   exit 1

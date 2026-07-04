@@ -69,17 +69,30 @@ def list_custom_scripts(home_dir):
     print(" Repository Custom Scripts")
     print("========================================")
     if os.path.isdir(repo_custom_dir):
-        items = []
+        # Group files by base name (without extension)
+        script_groups = {}
         for entry in os.listdir(repo_custom_dir):
             path = os.path.join(repo_custom_dir, entry)
             if os.path.isfile(path):
                 # Skip this script itself
                 if os.path.abspath(path) == os.path.abspath(__file__):
                     continue
-                items.append(entry)
-        if items:
-            for name in sorted(items):
-                print(name)
+                # Get base name without extension
+                base_name = os.path.splitext(entry)[0]
+                if base_name not in script_groups:
+                    script_groups[base_name] = []
+                script_groups[base_name].append(entry)
+        
+        if script_groups:
+            # Show deduplicated scripts, preferring .py files
+            for base_name in sorted(script_groups.keys()):
+                variants = script_groups[base_name]
+                # Prefer .py file if it exists, otherwise show first variant
+                py_file = next((f for f in variants if f.endswith('.py')), None)
+                if py_file:
+                    print(base_name)
+                elif variants:
+                    print(base_name)
         else:
             print("(no scripts found in repository bin)")
     else:

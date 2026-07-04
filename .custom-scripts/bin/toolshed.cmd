@@ -1,7 +1,7 @@
 @ECHO OFF
 SETLOCAL
-:: toolshed.cmd - shim to run list-git-aliases-and-custom-scripts.py with either python or py
-SET SCRIPT=%~dp0list-git-aliases-and-custom-scripts.py
+:: toolshed.cmd - shim to run toolshed.py with either python or py
+SET SCRIPT=%~dp0toolshed.py
 WHERE python >nul 2>&1
 IF %ERRORLEVEL%==0 (
   python "%SCRIPT%" %*
