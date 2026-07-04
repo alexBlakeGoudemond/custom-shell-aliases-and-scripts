@@ -1,59 +1,41 @@
 # README Custom Script
 
-# Using .custom-scripts:
-1. Clone this repo
-2. Checkout the appropriate branch, for example: `dev`
-3. Identify the absolute path to the script you care about, for example: `C:\<pathToRepository>\custom_shell_aliases_and_scripts\.custom-scripts\bin\<theBashScript>`
-4. Navigate to the directory where you want custom-scripts defined, for example: `%USERPROFILE%\.custom-scripts`
-5. Create a file in that custom-script location that has NO extension
-6. Ensure that the custom-scripts directory is on your PATH
-7. Add the below instructions to that custom script
-8. Open the file in VS Code (or equivalent) and in the bottom right hand corner, choose the file type as `LF` and save
+This repository provides lightweight shims and Python ports of small helper scripts so they work across Bash, WSL and PowerShell.
 
-```bash
-#!/usr/bin/env bash
+Summary of what’s included (repo/.custom-scripts/bin):
+- toolshed            (extensionless shim for Git Bash / WSL)
+- docker-conduct      (extensionless shim for Git Bash / WSL)
+- toolshed.cmd        (PowerShell/Windows shim)
+- docker-conduct.cmd  (PowerShell/Windows shim)
+- list-git-aliases-and-custom-scripts.py
+- docker-conduct.py
 
-WIN_PATH="<absolutePathToBashScript>"
+Quick setup (fresh clone)
+1. Clone the repo and note its absolute path.
+2. Ensure the repository "repo-root/.custom-scripts/bin" directory is on your PATH.
+   - Recommended: set CUSTOM_SCRIPTS to the repo .custom-scripts folder and add %CUSTOM_SCRIPTS%\bin to PATH (Windows), or export PATH in your shell for Git Bash:
+     export PATH="/c/path/to/repo/.custom-scripts/bin:$PATH"
+3. Make the Unix shims executable (Git Bash / WSL):
+   chmod +x /c/path/to/repo/.custom-scripts/bin/toolshed \
+             /c/path/to/repo/.custom-scripts/bin/docker-conduct
+4. Ensure Python is installed and "python" or "py" is on PATH (Windows) and that "python3" or "python" is on PATH for Bash.
 
-# Try WSL path conversion first
-if command -v wslpath >/dev/null 2>&1; then
-	TARGET="$(wslpath -u "$WIN_PATH")"
+How to run
+- Git Bash / WSL: run extensionless shims directly:
+  toolshed
+  docker-conduct -p myproject -f docker-compose.yml
+- PowerShell / cmd.exe: the .cmd shims invoke the Python scripts, so run:
+  toolshed
+  docker-conduct
+  (or: bash toolshed if you prefer the bash shim)
+- You can also run the Python scripts explicitly:
+  python ./.custom-scripts/bin/list-git-aliases-and-custom-scripts.py
 
-# Otherwise assume Git Bash-style environment
-elif command -v cygpath >/dev/null 2>&1; then
-	TARGET="$(cygpath -u "$WIN_PATH")"
+Notes and troubleshooting
+- After editing system PATH on Windows, restart Git Bash / PowerShell to pick up changes.
+- If "which toolshed" returns nothing in Git Bash, ensure the exact folder 
+  /c/path/to/repo/.custom-scripts/bin exists in $PATH (Git Bash shows POSIX-style paths).
+- If Python emoji or Unicode fails on Windows consoles, run PowerShell/Windows Terminal with UTF-8 or update PYTHONUTF8=1 in environment.
+- Keep files saved with LF line endings for the shims; Windows .cmd files use CRLF.
 
-# Fallback: manual conversion for Git Bash-like shells
-else
-	TARGET="/c/${WIN_PATH#C:/}"
-	TARGET="${TARGET//\\//}"
-fi
-
-bash "$TARGET" "$@"
-```
-
-> You should be able to just invoke the script by typing the name of the executable script!
-
-## Example - docker-conduct
-This script creates a new worktree and then leverages 'docker-conduct' to quickly manage docker containers
-1. (N/A)
-2. (N/A)
-3. Absolute path is `C:\<pathToRepository>\custom_shell_aliases_and_scripts\.dotfiles\bin\docker-conduct.sh`
-4. (N/A)
-5. `docker-conduct` in bash terminal, `bash docker-conduct` in powershell terminal
-6. (N/A)
-7. (N/A)
-
-Example Usage: ![dockerissimo_example_help_command.png](docker-conduct-example.png)
-
-## Example - toolshed
-This script creates a new worktree and then leverages 'toolshed' to display git aliases and custom scripts
-1. (N/A)
-2. (N/A)
-3. Absolute path is `C:\<pathToRepository>\custom_shell_aliases_and_scripts\.dotfiles\bin\custom-list-aliases-and-scripts.sh`
-4. (N/A)
-5. `toolshed` in bash terminal, `bash toolshed` in powershell terminal
-6. (N/A)
-7. (N/A)
-
-Example Usage: ![toolshed-example-command.png](toolshed-example-command.png)
+If you want an automated setup step (append to ~/.bashrc or create the Windows env var), open an issue or run the provided setup helper.

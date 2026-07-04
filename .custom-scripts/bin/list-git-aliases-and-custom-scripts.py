@@ -9,6 +9,18 @@ import sys
 import subprocess
 from shutil import which
 
+# Ensure UTF-8 stdout/stderr to avoid Windows console encoding errors when printing emojis
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
+except Exception:
+    try:
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+
 ALIAS_VERSION = "1.0.2"
 
 
@@ -49,21 +61,51 @@ def detect_home():
 
 
 def list_custom_scripts(home_dir):
-    custom_dir = os.path.join(home_dir, '.custom-scripts')
+    # Repository scripts (the bin folder where this script lives)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    repo_custom_dir = script_dir  # repository .custom-scripts/bin
+
     print("========================================")
-    print(" Custom Scripts")
+    print(" Repository Custom Scripts")
     print("========================================")
-    if os.path.isdir(custom_dir):
+    if os.path.isdir(repo_custom_dir):
         items = []
-        for entry in os.listdir(custom_dir):
-            path = os.path.join(custom_dir, entry)
+        for entry in os.listdir(repo_custom_dir):
+            path = os.path.join(repo_custom_dir, entry)
+            if os.path.isfile(path):
+                # Skip this script itself
+                if os.path.abspath(path) == os.path.abspath(__file__):
+                    continue
+                items.append(entry)
+        if items:
+            for name in sorted(items):
+                print(name)
+        else:
+            print("(no scripts found in repository bin)")
+    else:
+        print("Repository custom scripts directory not found:")
+        print(repo_custom_dir)
+
+    # Also list user custom scripts (previous behaviour)
+    user_custom_dir = os.path.join(home_dir, '.custom-scripts')
+    print()
+    print("========================================")
+    print(" User Custom Scripts")
+    print("========================================")
+    if os.path.isdir(user_custom_dir):
+        items = []
+        for entry in os.listdir(user_custom_dir):
+            path = os.path.join(user_custom_dir, entry)
             if os.path.isfile(path):
                 items.append(entry)
-        for name in sorted(items):
-            print(name)
+        if items:
+            for name in sorted(items):
+                print(name)
+        else:
+            print("(no scripts found in user custom-scripts)")
     else:
         print("Custom scripts directory not found:")
-        print(custom_dir)
+        print(user_custom_dir)
 
 
 def show_git_aliases():
