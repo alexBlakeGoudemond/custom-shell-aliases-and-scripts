@@ -1,0 +1,24 @@
+.custom-scripts/bin/image-resize.cmd
+  s_b04e7bca04b7a1::t_907861cffcdd95 1-17
+.custom-scripts/bin/image-resize
+  s_b04e7bca04b7a1::t_4c15e74b3d1147 1-12
+.custom-scripts/bin/image-resize.py
+  s_b04e7bca04b7a1::t_9810c51d0f8ba1 45
+  s_b04e7bca04b7a1::t_97481c2beb3726 1-44,46-113
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "3719ce759a85bda83f7b0e123adafdc3174c22c1",
+  "prompts": {},
+  "sessions": {
+    "s_b04e7bca04b7a1": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "9e167a7d-e56f-47d9-969c-d0c0dfce0afc",
+        "model": "unknown"
+      },
+      "human_author": "alexBlakeGoudemond <alexgoudemond@gmail.com>"
+    }
+  }
+}
