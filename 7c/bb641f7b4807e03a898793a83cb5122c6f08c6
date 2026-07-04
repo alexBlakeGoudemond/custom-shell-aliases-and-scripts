@@ -1,0 +1,28 @@
+.custom-scripts/bin/toolshed
+  s_b04e7bca04b7a1::t_c7b09f929f2686 1-12
+.custom-scripts/bin/docker-conduct
+  s_b04e7bca04b7a1::t_373b4f212c8754 1-12
+.custom-scripts/bin/list-git-aliases-and-custom-scripts.py
+  s_b04e7bca04b7a1::t_26926ee766ab28 12
+  s_b04e7bca04b7a1::t_cb599ca066c073 13-15
+  s_b04e7bca04b7a1::t_ac07f78943c118 16-23,64-91,93,95,97-98,101-105,108
+".custom-scripts/README Custom Script.md"
+  s_b04e7bca04b7a1::t_efccf2d00e32db 3-39
+  s_b04e7bca04b7a1::t_eb983e95db3237 40-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "7cbb641f7b4807e03a898793a83cb5122c6f08c6",
+  "prompts": {},
+  "sessions": {
+    "s_b04e7bca04b7a1": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "9e167a7d-e56f-47d9-969c-d0c0dfce0afc",
+        "model": "unknown"
+      },
+      "human_author": "alexBlakeGoudemond <alexgoudemond@gmail.com>"
+    }
+  }
+}
