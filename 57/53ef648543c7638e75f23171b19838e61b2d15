@@ -1,0 +1,37 @@
+.custom-scripts/bin/toolshed
+  s_53eca79cf21c37::t_545bfabfd80a8c 8
+  s_b04e7bca04b7a1::t_165250eba094c3 6
+.custom-scripts/bin/toolshed.cmd
+  s_b04e7bca04b7a1::t_db5aafbb467b27 3-4
+.custom-scripts/bin/toolshed.py
+  s_b04e7bca04b7a1::t_896d31c2b6687f 72-73,80-95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "5753ef648543c7638e75f23171b19838e61b2d15",
+  "prompts": {},
+  "humans": {
+    "h_1b0451f28f893a": {
+      "author": "alexBlakeGoudemond <alexgoudemond@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_53eca79cf21c37": {
+      "agent_id": {
+        "tool": "github-copilot-jetbrains",
+        "id": "1783197174802",
+        "model": "unknown"
+      },
+      "human_author": "alexBlakeGoudemond <alexgoudemond@gmail.com>"
+    },
+    "s_b04e7bca04b7a1": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "9e167a7d-e56f-47d9-969c-d0c0dfce0afc",
+        "model": "unknown"
+      },
+      "human_author": "alexBlakeGoudemond <alexgoudemond@gmail.com>"
+    }
+  }
+}
