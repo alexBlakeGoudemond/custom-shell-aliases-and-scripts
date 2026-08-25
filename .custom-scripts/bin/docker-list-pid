@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# extensionless shim for Git Bash / WSL to run the Python docker-list-pid.py
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if command -v python3 >/dev/null 2>&1; then
+  python3 "$SCRIPT_DIR/docker-list-pid.py" "$@"
+elif command -v python >/dev/null 2>&1; then
+  python "$SCRIPT_DIR/docker-list-pid.py" "$@"
+else
+  echo "Python not found on PATH" >&2
+  exit 1
+fi
