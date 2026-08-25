@@ -1,0 +1,29 @@
+.custom-scripts/bin/docker-list-pid
+  s_3f83c733aff1d3::t_c6289d5cae5c62 1-12
+.custom-scripts/bin/docker-list-pid.cmd
+  s_3f83c733aff1d3::t_5a02325c187b0f 1-17
+.custom-scripts/bin/docker-list-pid.py
+  h_1197a506f6c7d6 18-19,159-163,236-239
+  s_3f83c733aff1d3::t_9c1a1a044f9022 1-17,20-158,164-235,240-243
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "759918c80e927db3e8c04f1ee44c5d6cbe86314e",
+  "prompts": {},
+  "humans": {
+    "h_1197a506f6c7d6": {
+      "author": "Alex Blake-Goudemond <alexgoudemond@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_3f83c733aff1d3": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "e0f5c8b0-04f9-44d4-833d-31b42d9fe546",
+        "model": "unknown"
+      },
+      "human_author": "Alex Blake-Goudemond <alexgoudemond@gmail.com>"
+    }
+  }
+}
